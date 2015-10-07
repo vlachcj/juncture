@@ -2,21 +2,15 @@ $(document).ready(function() {
 
 // runTests();
 
-$("#reqs-container").hide();
-$("#question-container").hide();
-$("#run").css("visibility", "hidden");
-
-$("#run").click(function (e) {
-	$("#run").css("visibility","hidden");
+$("#run i").click(function (e) {
+	$("#run").hide();
 	$("#question-container").show();
 	onStart();
 });
 
-var title = "";
-$("#title-edit").hide();
 function titleClick() {
 	$("#title-add").hide();
-	// $("#title-edit").show();
+	$("#title-edit").show();
 	$("#title-input").addClass("title-done-editing");
 	$("#option-input").focus();
 }
@@ -28,12 +22,11 @@ $("#title-input").keyup(function (e) {
     	titleClick();
     }
 });
-$("#title-input").hover(function (e) {
-	if ($(this).hasClass("title-done-editing")) {
-		$("#title-edit").show();
-	}
-});
-$("#title-edit").hover($(this).show());
+// $("#title-input").hover(function (e) {
+// 	if ($(this).hasClass("title-done-editing")) {
+// 		$("#title-edit").show();
+// 	}
+// });
 function editTitleClick() {
 	$("#title-add").show();
 	$("#title-edit").hide();
@@ -50,7 +43,7 @@ $("#title-input").click(function (e) {
 function optionClick() {
 	var text = $("#option-input").val();
 	$("#option-input").val("");
-    $("#option-list").prepend("<li><span class='glyphicon glyphicon-remove' aria-hidden='true'></span>"+text+"</li>");
+    $("#option-list").prepend("<li><span><span class='glyphicon glyphicon-remove' aria-hidden='true'></span>"+text+"</span></li>");
     onOptionAdded(text);
 }
 $("#option-add").click(function (e) {
@@ -62,24 +55,23 @@ $("#option-input").keyup(function (e) {
     }
 });
 $('#option-list').on('click','.glyphicon', function (e) {
-	onOptionDeleted($(this).parent().index());
-	$(this).parent().hide();
+	onOptionDeleted($(this).parent().parent().index());
+	$(this).parent().parent().hide();
 
 });
-
-
-$('#option-list').on('mouseenter', 'li', function (e) {
-    $(this).children(0).css("visibility", "visible");
+$('#option-list').on('mouseenter', 'span', function (e) {
+    $(this).children(".glyphicon").css("opacity", "1");
 });
-$('#option-list').on('mouseleave', 'li', function (e) {
-    $(this).children(0).css("visibility", "hidden");
+$('#option-list').on('mouseleave', 'span', function (e) {
+    $(this).children(".glyphicon").css("opacity", "0");
 });
 
 function attrClick() {
 	var text = $("#attribute-input").val();
 	$("#attribute-input").val("");
-    $("#attribute-list").prepend("<li><span class='glyphicon glyphicon-remove' aria-hidden='true'></span>"+text+"</li>");
-    onAttrAdded(text);
+    $("#attribute-list").prepend("<li><span><span class='glyphicon glyphicon-remove' aria-hidden='true'></span>"+text+"</span><canvas width='15' height='15'></canvas></li>");
+    var chart = makeMiniWeight($("#attribute-list").children(0).children("canvas"), .7);
+    onAttrAdded(text, chart);
 }
 $("#attribute-add").click(function (e) {
 	attrClick();
@@ -90,14 +82,18 @@ $("#attribute-input").keyup(function (e) {
     }
 });
 $('#attribute-list').on('click','.glyphicon', function (e) {
-	onAttrDeleted($(this).parent().index());
-	$(this).parent().hide();
+	onAttrDeleted($(this).parent().parent().index());
+	$(this).parent().parent().hide();
 });
-$('#attribute-list').on('mouseenter', 'li', function (e) {
-    $(this).children(0).css("visibility", "visible");
+$('#attribute-list').on('click','canvas', function (e) {
+	$("#weight-adjuster-modal").modal("show");
+	showWeightAdjuster($(this).parent().index());
 });
-$('#attribute-list').on('mouseleave', 'li', function (e) {
-    $(this).children(0).css("visibility", "hidden");
+$('#attribute-list').on('mouseenter', 'span', function (e) {
+    $(this).children(".glyphicon").css("opacity", "1");
+});
+$('#attribute-list').on('mouseleave', 'span', function (e) {
+    $(this).children(".glyphicon").css("opacity", "0");
 });
 
 
@@ -107,22 +103,11 @@ $("#option1").click(function (e) {
 $("#option2").click(function (e) {
 	onAnswerClicked(2);
 });
-	fitImage("#track-drawing");
 
-	animateTrack("#main_l", "0s", "2s");
-	animateTrack("#main_r", "0s", "2s");
-	animateTrack("#left_l", "1s", "2s");
-	animateTrack("#left_branch_r", "1s", "2s");
-	animateTrack("#left_branch_l", "2s", "2s");
-	animateTrack("#left_r", "2s", "2s");
-	animateTrack("#main_branch_r", "3s", "2s");
-	animateTrack("#main_branch_l", "3s", "2s");
-	animateTrack("#right_l", "2s", "3s");
-	animateTrack("#right_r", "2s", "3s");
-	animateTrack("#cross_r", "2s", "1s");
-	animateTrack("#cross_l", "2s", "1s");
-	animateTrack("#cross_r_tip", "4s", ".5s");
-	animateTrack("#cross_l_tip", "4s", ".5s");
+document.getElementById("track-drawing").addEventListener("load", function() {
+	var doc = this.getSVGDocument();
+	driveAnimation(doc);
+});
 
-	fadeImage("#track-drawing image");
+
 });

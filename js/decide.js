@@ -22,25 +22,25 @@ function Option(name) {
   	this.valid = true;
   	this.wins = new Array(numAttr);
 	this.wins.fill(0);
+	// faking a linked list
 	this.optionsBeaten = new Array(numAttr);
 	this.optionsBeaten.fill([]);
 }
 
-function Attribute(name, weight) {
+function Attribute(name, chart) {
 	this.name = name;
 	this.valid = true;
-	this.weight = weight;
-	//list of nodes, tree structure with unique leaves
-	// this.transTracker = [];
+	this.weight = .7;
+	this.weightChart = chart;
 	numAttr += 1;
 }
 
-function Node(option) {
-	// data
-	this.option = option;
-	// pointers to other nodes
-	this.optionsBeaten = [];
-}
+// function Node(option) {
+// 	// data
+// 	this.option = option;
+// 	// pointers to other nodes
+// 	this.optionsBeaten = [];
+// }
 
 function Pair(first, second, attrIndex) {
 	this.choice1 = first;
@@ -54,14 +54,9 @@ function shuffleArray(array) {
   var currentIndex = array.length - 1, temporaryValue, randomIndex, 
   numToShuff = currentIndex - curPairIndex + 1;
 
-  // While there remain elements to shuffle...
   while (curPairIndex < currentIndex) {
-
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * numToShuff + curPairIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -95,12 +90,16 @@ function checkRunReqs() {
 function displayRun(bool) {
 	if (bool) {
 		if (!started)
-			$("#run").css("visibility", "visible");
-		else if (paused)
+			$("#run").show();
+		else if (paused) {
+			$("#reqs-container").hide();
 			resume();
+		}
 	} else {
 		if (started) {
 			$("#reqs-container").show();
+		} else {
+			$("#run").hide();
 		}
 	}
 }
@@ -123,13 +122,9 @@ function onOptionDeleted(revIndex) {
 	displayRun(checkRunReqs());
 }
 
-function onAttrAdded(text) {
-
-		// get info from form
-
-	var w = 1;
+function onAttrAdded(text, chart) {
 	// add to array
-	attributes.push(new Attribute(text, w));
+	attributes.push(new Attribute(text, chart));
 	// add new win column for each option
 	for (var i = 0; i < options.length; i++) {
 		options[i].wins.push(0);
@@ -230,6 +225,10 @@ function preDisplayPair(index) {
 				// ask user
 				displayPair(index);
 			}
+		} else {
+			// show next pair
+			curPairIndex += 1;
+			preDisplayPair(curPairIndex);
 		} 
 	} else {
 		displayResults();
@@ -275,9 +274,23 @@ function resume() {
 	// but conditions were met again
 	paused = false;
 	shuffleArray(pairs);
-	preDisplayPair(curPairIndex);
 	// do animation
 	$("#question-container").show();
+	showSpinner();
+	setTimeout( function() {
+		$("#spinner").css("visibility", "hidden");
+		preDisplayPair(curPairIndex);
+	}, 700);
+}
+
+function showSpinner() {
+	
+	$("#spinner").offset($("#question-container").offset());
+	$("#spinner").height($("#question-container").height());
+	$("#spinner").width($("#question-container").width());
+
+	$("#spinner").css("visibility", "visible");
+
 }
 
 function checkTransitive(index) {

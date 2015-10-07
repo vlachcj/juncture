@@ -18,7 +18,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="tracks3.svg"
-   preserveAspectRatio="xMaxYMid slice">
+   preserveAspectRatio="xMidYMax slice">
   <defs
      id="defs4462">
     <linearGradient
@@ -73,8 +73,8 @@
      transform="translate(221.45714,-361.90506)"
      style="fill:none;fill-opacity:1">
     <rect
-       style="opacity:1;fill:#272358;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5116"
+       style="opacity:0;fill:#272358;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="purple-rect"
        width="482.91428"
        height="398.05713"
        x="-221.45714"
@@ -24029,7 +24029,7 @@ G0DVM//Z
        preserveAspectRatio="none"
        height="398.05713"
        width="482.91428"
-       style="fill:none;fill-opacity:1" />
+       style="fill:none;fill-opacity:1;opacity:0" />
     <path
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -8.45085,758.87171 c 0,0 -7.26984,-30.53332 -4.36191,-49.07141 2.90794,-18.53809 6.90635,-36.3492 6.90635,-36.3492 l 7.63333,-51.61585 5.81587,-28.71587 2.54445,-20.71904 1.45396,-5.08889"
