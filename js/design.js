@@ -22,11 +22,7 @@ $("#title-input").keyup(function (e) {
     	titleClick();
     }
 });
-// $("#title-input").hover(function (e) {
-// 	if ($(this).hasClass("title-done-editing")) {
-// 		$("#title-edit").show();
-// 	}
-// });
+
 function editTitleClick() {
 	$("#title-add").show();
 	$("#title-edit").hide();

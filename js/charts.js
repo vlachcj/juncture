@@ -1,21 +1,8 @@
-// $(document).ready(function() {
+// WEIGHT MODAL and LI ITEM
 
+var attrIndex;
 
-
-
-
-
-// 	// Get context with jQuery - using jQuery's .get() method.
-// // var ctx = $("#myChart").get(0).getContext("2d");
-// // var myDoughnutChart = new Chart(ctx).Doughnut(data,{
-// //     animateScale: true
-// // });
-
-// // $("#slider").roundSlider();
-// // This will get the first returned node in the jQuery collection.
-// });
-function makeMiniWeight(canvas, weight) {
-    
+function makeMiniWeight(canvas, weight) {   
     var data = [
         {
             value: weight,
@@ -54,14 +41,16 @@ function makeMiniWeight(canvas, weight) {
     return myDoughnutChart;
 }
 
-function updateWeight(chart, weight) {
-    chart.segments[0].value = weight;
-    chart.segments[1].value = 1-weight;
-    chart.update();
+function updateWeight(attr, weight) {
+    attr.weight = weight;
+    attr.weightChart.segments[0].value = weight;
+    attr.weightChart.segments[1].value = 1-weight;
+    attr.weightChart.update();
 }
+
 function showWeightAdjuster(revIndex) {
-    var index = attributes.length - revIndex - 1;
-    var weight = attributes[index].weight;
+    attrIndex = attributes.length - revIndex - 1;
+    var weight = attributes[attrIndex].weight;
     var options = {
         max: 1,
         step: .01,
@@ -75,9 +64,14 @@ function showWeightAdjuster(revIndex) {
     };
     $('#weight-adjuster-content').roundSlider(options);
 }
+
 $('#weight-adjuster-modal').on('hidden.bs.modal', function (e) {
-  // do something...
+    var val = $('#weight-adjuster-content').roundSlider("getValue");
+    updateWeight(attributes[attrIndex], val);
 })
+
+
+// FINAL RESULTS
 
 function generateGraph(results) {
     google.load("visualization", "1", { packages:["corechart"], callback:drawChart });
